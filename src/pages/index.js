@@ -1,39 +1,53 @@
 
 import React, { PureComponent } from 'react';
-import { Layout, Menu, PageHeader, Row, Col } from 'antd';
+import { Layout, Card } from 'antd';
 
-const { Header, Content, Footer } = Layout;
+import TimHeader from '../components/TimHeader'
+import TimFooter from '../components/TimFooter'
+import Resume from '../components/Resume'
+import VisitorInfo from '../components/VisitorInfo'
+import SiteArchitecture from '../components/SiteArchitecture'
+
+const { Content } = Layout;
 
 class Index extends PureComponent {
+  sections = [
+    {
+      key: "resume",
+      title: "Resume",
+      content: <Resume/>
+    },
+    {
+      key: "visitor-info",
+      title: "Visitor Info",
+      content: <VisitorInfo/>
+    },
+    {
+      key: "site-architecture",
+      title: "Site Architecture",
+      content: <SiteArchitecture/>
+    }
+  ]
+
   render() {
+    let cards = this.sections.map(section =>
+      <Card
+        id={section.key}
+        key={section.key}
+        title={section.title}
+        className="section-card"
+      >
+        {section.content}
+      </Card>
+    )
+
     return (
       <Layout className="layout">
-        <Header className="header">
-          <Row type="flex" justify="space-between">
-            <Col span={16}>
-              <PageHeader
-                title="TIM BECKER"
-                subTitle="DevOps Engineer"
-              />
-            </Col>
-            <Col span={8}>
-              <Menu
-                theme="dark"
-                mode="horizontal"
-                defaultSelectedKeys={['resume']}
-                className="nav-menu"
-              >
-                <Menu.Item key="resume">Resume</Menu.Item>
-                <Menu.Item key="visitor-info">Visitor Info</Menu.Item>
-                <Menu.Item key="site-architecture">Site Architecture</Menu.Item>
-              </Menu>
-            </Col>
-          </Row>
-        </Header>
+        <TimHeader sections={this.sections}/>
         <Content className="content-wrapper">
-            <div>Content</div>
+          {cards}
         </Content>
-        <Footer className="footer">©2020 Tim Becker, All rights reserved</Footer>
+        <TimFooter/>
       </Layout>
     );
   }
