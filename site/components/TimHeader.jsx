@@ -3,44 +3,26 @@ import { Layout, Menu, PageHeader, Row, Col, Affix } from 'antd';
 
 const { Header } = Layout;
 
+import scrollToElementById from '../utils/scrollToElementById'
+
 class TimHeader extends PureComponent {
-  // https://stackoverflow.com/a/442474/8474056
-  getOffset = el => {
-    var _x = 0;
-    var _y = 0;
-    while( el && !isNaN( el.offsetLeft ) && !isNaN( el.offsetTop ) ) {
-      _x += el.offsetLeft - el.scrollLeft;
-      _y += el.offsetTop - el.scrollTop;
-      el = el.offsetParent;
-    }
-    return { top: _y, left: _x };
-  }
-
-  scrollToElementById = id => {
-    let offset = this.getOffset(document.getElementById(id))
-    window.scroll({top: offset.top, left: offset.left, behavior: 'smooth' })
-  }
-
   render() {
     let navItems = this.props.sections
 
     return (
       <Affix>
         <Header className="header">
-          <Row type="flex" justify="space-between">
-            <Col span={16}>
-              <PageHeader
-                title="TIM BECKER"
-                subTitle="DevOps Engineer"
-              />
+          <Row type="flex" justify="space-between" className="header-row">
+            <Col span={12} className="header-col">
+              <div className="header-title">TIM BECKER</div>
             </Col>
-            <Col span={8}>
+            <Col span={12} className="header-col">
               <Menu
                 theme="dark"
                 mode="horizontal"
                 defaultSelectedKeys={['resume']}
                 className="nav-menu"
-                onSelect={item => this.scrollToElementById(item.key)}
+                onSelect={item => scrollToElementById(item.key)}
               >
                 {navItems.map(n => <Menu.Item key={n.key}>{n.title}</Menu.Item>)}
               </Menu>

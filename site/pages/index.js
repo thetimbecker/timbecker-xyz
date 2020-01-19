@@ -1,57 +1,87 @@
 
 import React, { PureComponent } from 'react';
-import { Layout, Card } from 'antd';
+import { Layout } from 'antd';
 
 import TimHeader from '../components/TimHeader'
 import TimFooter from '../components/TimFooter'
+import Section from '../components/Section'
 import Resume from '../components/Resume'
-import VisitorInfo from '../components/VisitorInfo'
-import SiteArchitecture from '../components/SiteArchitecture'
+
+import useWindowDimensions from '../utils/useWindowDimensions'
 
 const { Content } = Layout;
 
-class Index extends PureComponent {
-  sections = [
-    {
-      key: "resume",
-      title: "Resume",
-      content: <Resume/>
-    },
-    {
-      key: "visitor-info",
-      title: "Visitor Info",
-      content: <VisitorInfo/>
-    },
-    {
-      key: "site-architecture",
-      title: "Site Architecture",
-      content: <SiteArchitecture/>
-    }
-  ]
-
-  render() {
-    let cards = this.sections.map(section =>
-      <Card
-        id={section.key}
-        key={section.key}
-        title={section.title}
-        className="section-card"
-      >
-        {section.content}
-      </Card>
-    )
-
-    return (
-      <Layout className="layout">
-        <TimHeader sections={this.sections}/>
-        <Content className="content-wrapper">
-          {cards}
-        </Content>
-        <TimFooter/>
-      </Layout>
-    );
+const sections = [
+  {
+    key: "home",
+    title: "Home",
+    content: [
+      <Resume/>,
+      <Resume/>,
+      <Resume/>,
+      <Resume/>,
+    ]
+  },
+  {
+    key: "skills",
+    title: "Skills",
+    content:  [
+      <Resume/>,
+      <Resume/>,
+      <Resume/>,
+    ]
+  },
+  {
+    key: "experience",
+    title: "Experience",
+    content:  [
+      <Resume/>,
+      <Resume/>,
+    ]
+  },
+  {
+    key: "education",
+    title: "Education",
+    content:  [
+      <Resume/>,
+      <Resume/>,
+    ]
+  },
+  {
+    key: "redeploy",
+    title: "Redeploy",
+    content:  [
+      <Resume/>,
+      <Resume/>,
+    ]
   }
+]
+
+const Index = () => {
+  const { height, width } = useWindowDimensions();
+
+  let skinny = width < 1100 // TODO don't hardcode this, sync with less
+
+  let sectionElements = sections.map(section =>
+    <Section
+      sectionKey={section.key}
+      title={section.title}
+      className="section-card"
+      skinny={skinny}
+    >
+      {section.content}
+    </Section>
+  )
+
+  return (
+    <Layout className="layout">
+      <TimHeader sections={sections}/>
+      <Content className="content-wrapper">
+        {sectionElements}
+      </Content>
+      <TimFooter/>
+    </Layout>
+  );
 }
 
 export default Index
-

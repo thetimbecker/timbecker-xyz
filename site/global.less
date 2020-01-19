@@ -1,17 +1,26 @@
-@header-height: 64px;
-@footer-height: 64px;
-@content-padding: 24px;
+// header and footer
 
-.ant-page-header-heading-title {
+@header-height: 48px;
+@footer-height: 64px;
+
+.header-title {
   color: rgba(255, 255, 255);
+  line-height: @header-height;
+  font-size: 20px;
+  font-weight: 600;
 }
 
-.ant-page-header-heading-sub-title {
-  color: rgba(255, 255, 255, 0.65);
+.header-row {
+  height: @header-height;
+}
+
+.header-col {
+  height: @header-height;
 }
 
 .nav-menu {
   line-height: @header-height;
+  text-align: end;
 }
 
 .header {
@@ -23,13 +32,29 @@
   height: @footer-height;
 }
 
+// content
+
+@content-padding: 24px;
+@section-padding: 64px;
+
+.section-content {
+  padding: 0 @section-padding;
+}
+
+@media only screen and (max-width: 1100px) {
+  .section-content {
+    padding: 0 @section-padding - 48px;
+  }
+}
+
 .content-wrapper {
   min-height: 100vh;
-  padding: @header-height+@content-padding @content-padding @footer-height;
   margin-top: -@header-height;
   margin-bottom: -@footer-height;
+  padding-top: @header-height;
+  padding-bottom: @footer-height;
 }
 
 .section-card {
-  margin-bottom: 24px;
+  margin: 0 @content-padding/2 @content-padding;
 }
