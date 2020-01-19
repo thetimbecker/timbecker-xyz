@@ -14,19 +14,23 @@ provider aws {
   region  = "us-east-1"
 }
 
-provider null {
-  version = ">= 2.1.2"
+provider archive {
+  version = ">= 1.3.0"
 }
 
 provider random {
-version = ">= 2.2.1"
+  version = ">= 2.2.1"
 }
+
+data aws_caller_identity current {}
 
 locals {
   site_name = "timbecker.xyz"
 }
 
+######
 # DNS
+######
 
 data aws_route53_zone site_zone {
   name = local.site_name
@@ -44,7 +48,9 @@ resource aws_route53_record site_record {
   }
 }
 
+##############
 # Certificate
+##############
 
 resource aws_acm_certificate site_cert {
   domain_name       = local.site_name

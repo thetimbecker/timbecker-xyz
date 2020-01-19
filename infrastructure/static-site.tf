@@ -1,4 +1,6 @@
+############
 # S3 Bucket
+############
 
 resource aws_s3_bucket site_bucket {
   bucket = local.site_name
@@ -38,7 +40,93 @@ resource aws_s3_bucket_policy allow_cloudfront {
   policy = data.aws_iam_policy_document.s3_allow_cloudfront.json
 }
 
+####################
+# Index name lambda
+####################
+
+locals {
+  get_index_html_name_lambda_name     = "get-index-html-name"
+  get_index_html_name_lambda_filename = "get_index_html_name"
+}
+
+# IAM
+
+data aws_iam_policy_document get_index_html_name_lambda_assume_role_policy {
+  statement {
+    principals {
+      type        = "Service"
+      identifiers = ["lambda.amazonaws.com"]
+    }
+
+    actions = ["sts:AssumeRole"]
+  }
+}
+
+resource aws_iam_role get_index_html_name_lambda_role {
+  name_prefix        = "${local.get_index_html_name_lambda_name}-role-"
+  assume_role_policy = data.aws_iam_policy_document.get_index_html_name_lambda_assume_role_policy.json
+}
+
+data aws_iam_policy_document get_index_html_name_lambda_role_policy {
+  statement {
+    actions = ["logs:CreateLogGroup"]
+    resources = ["arn:aws:logs:us-east-1:${data.aws_caller_identity.current.account_id}:*"]
+  }
+
+  statement {
+    actions   = ["logs:CreateLogStream", "logs:PutLogEvents"]
+    resources = ["arn:aws:logs:us-east-1:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/${local.get_index_html_name_lambda_name}:*"]
+  }
+}
+
+resource aws_iam_policy get_index_html_name_lambda_role_policy {
+  name_prefix = "${local.get_index_html_name_lambda_name}-role-policy-"
+  policy      = data.aws_iam_policy_document.get_index_html_name_lambda_role_policy.json
+}
+
+resource aws_iam_role_policy_attachment get_index_html_name_lambda_role_policy {
+  role       = aws_iam_role.get_index_html_name_lambda_role.name
+  policy_arn = aws_iam_policy.get_index_html_name_lambda_role_policy.arn
+}
+
+resource aws_iam_role_policy_attachment get_index_html_name_lambda_s3_read_only_policy {
+  role       = aws_iam_role.get_index_html_name_lambda_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
+}
+
+# Function
+
+resource random_id index_hash {
+  byte_length = 8
+
+  keepers = {
+    md5_code = filemd5("${path.module}/lambda/${local.get_index_html_name_lambda_filename}.py")
+  }
+}
+
+data archive_file get_index_html_name_zip {
+  type        = "zip"
+  source_file = "${path.module}/lambda/${local.get_index_html_name_lambda_filename}.py"
+  output_path = "${path.module}/lambda/${local.get_index_html_name_lambda_filename}-${random_id.index_hash.hex}.zip"
+}
+
+resource aws_lambda_function get_index_html_name {
+  function_name = local.get_index_html_name_lambda_name
+  role          = aws_iam_role.get_index_html_name_lambda_role.arn
+
+  filename      = data.archive_file.get_index_html_name_zip.output_path
+  runtime       = "python3.8"
+  handler       = "${local.get_index_html_name_lambda_filename}.lambda_handler"
+}
+
+data aws_lambda_invocation get_index_html_name {
+  function_name = aws_lambda_function.get_index_html_name.function_name
+  input         = jsonencode({})
+}
+
+#############
 # CloudFront
+#############
 
 locals {
   s3_origin_id = "s3-${aws_s3_bucket.site_bucket.bucket}"
@@ -50,8 +138,9 @@ resource aws_cloudfront_origin_access_identity s3_access_identity {
 
 resource aws_cloudfront_distribution cloudfront {
   enabled             = true
-  default_root_object = local.hashed_index_html_name
+  default_root_object = jsondecode(data.aws_lambda_invocation.get_index_html_name.result)["index_html_name"]
   aliases             = [local.site_name]
+  wait_for_deployment = false
 
   origin {
     domain_name = aws_s3_bucket.site_bucket.bucket_regional_domain_name
@@ -90,55 +179,5 @@ resource aws_cloudfront_distribution cloudfront {
     acm_certificate_arn      = aws_acm_certificate.site_cert.arn
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1.2_2018"
-  }
-}
-
-# Deploy Site
-
-locals {
-  hashed_index_html_name = join(".", [
-    "index",
-    random_id.index_hash.hex,
-    "html"
-  ])
-
-  site_path = "${path.module}/../site"
-}
-
-resource random_id index_hash {
-  byte_length = 8
-
-  keepers = {
-    always_run = timestamp()
-  }
-}
-
-resource null_resource build_and_deploy_to_s3 {
-  triggers = {
-    index_html = local.hashed_index_html_name
-  }
-
-  # install node packages
-  provisioner local-exec {
-    command     = "npm i"
-    working_dir = local.site_path
-  }
-
-  # build the files using UmiJS
-  provisioner local-exec {
-    command     = "umi build"
-    working_dir = local.site_path
-  }
-
-  # rename index.html so it busts the cache
-  provisioner local-exec {
-    command     = "mv dist/index.html dist/${local.hashed_index_html_name}"
-    working_dir = local.site_path
-  }
-
-  # upload built site to S3
-  provisioner local-exec {
-    command     = "aws s3 sync dist s3://${aws_s3_bucket.site_bucket.id} --delete"
-    working_dir = local.site_path
   }
 }

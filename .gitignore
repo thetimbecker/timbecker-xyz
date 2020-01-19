@@ -1,4 +1,5 @@
 .idea
+**/*.zip
 
 site/node_modules
 site/dist
