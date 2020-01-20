@@ -1,19 +1,31 @@
 import React, { PureComponent } from 'react';
 import { Card, Col } from 'antd';
 
+
 class Section extends PureComponent {
   render() {
-    let { children, cardKey, skinny } = this.props
+    let { children, title, description, gridItems, avatar, style } = this.props
+
+    let gridElements = gridItems && gridItems.map((g, i) => 
+      <Card.Grid>
+        <div>{g}</div>
+      </Card.Grid>
+    )
 
     return (
-      <Col span={skinny ? 24 : 12}>
-        <Card
-          key={cardKey}
-          className="section-card"
-        >
-          {children}
-        </Card>
-      </Col>
+      <Card
+        key={title}
+        className="section-card"
+        style={style}
+      >
+        <Card.Meta 
+          title={title}
+          description={description}
+          avatar={avatar}
+        />
+        {children}
+        {gridElements}
+      </Card>
     );
   }
 }

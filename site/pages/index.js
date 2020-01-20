@@ -6,6 +6,7 @@ import TimHeader from '../components/TimHeader'
 import TimFooter from '../components/TimFooter'
 import Section from '../components/Section'
 import Skills from '../components/Skills'
+import Education from '../components/Education'
 import Home from '../components/Home'
 
 import useWindowDimensions from '../utils/useWindowDimensions'
@@ -36,7 +37,7 @@ const Index = () => {
     {
       key: "education",
       title: "Education",
-      content: <Skills skinny={skinny}/>
+      content: <Education width={width}/>
     },
     {
       key: "redeploy",

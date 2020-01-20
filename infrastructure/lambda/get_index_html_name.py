@@ -9,7 +9,6 @@ def lambda_handler(event, context):
     response = s3.list_objects_v2(
       Bucket='timbecker.xyz',
       EncodingType='url',
-      MaxKeys=1,
       Prefix='index'
     )
 
@@ -17,7 +16,10 @@ def lambda_handler(event, context):
     index_html_name = 'index.html'
 
     if response['Contents']:
-      index_html_name = response['Contents'][0]['Key']
+      # get most recent
+      sortedContents = sorted(response['Contents'], key=lambda content: content['LastModified'], reverse=True)
+      print(sortedContents)
+      index_html_name = sortedContents[0]['Key']
 
     return {'index_html_name': index_html_name}
   except Exception as e:

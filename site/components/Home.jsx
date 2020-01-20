@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import Resume from './Resume'
 import timOnRock from '../assets/tim-on-rock.jpg'
 
 class Home extends PureComponent {

@@ -1,7 +1,7 @@
 // header and footer
 
 @header-height: 48px;
-@footer-height: 64px;
+@footer-height: 96px;
 
 .header-title {
   color: rgba(255, 255, 255);
@@ -33,6 +33,10 @@
 .footer {
   text-align: center;
   height: @footer-height;
+}
+
+.footer-buttons {
+  padding: 8px
 }
 
 // content
@@ -67,6 +71,25 @@
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
+.ant-card-contain-grid:not(.ant-card-loading) .ant-card-meta {
+  padding: @content-padding;
+}
+
+.ant-card-grid {
+  position: relative;
+  padding: 0;
+  height: 64px;
+  width: 50%;
+}
+
+.ant-card-grid div{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
 .tim-on-rock {
   /* Full height */
   height: calc(100vh - @header-height);
@@ -75,6 +98,33 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.where {
+  font-size: 28px;
+  font-weight: 700;
+  color: rgba(0, 0, 0);
+}
+
+.what {
+  font-size: 20px;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.when {
+  font-size: 18px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.5)
+}
+
+.aws-cert-badge-wrapper {
+  text-align: center;
+}
+
+.aws-cert-badge {
+  max-width: 256px;
+  width: 100%;
 }
 
 // home stuff
