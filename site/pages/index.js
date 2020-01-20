@@ -5,69 +5,50 @@ import { Layout } from 'antd';
 import TimHeader from '../components/TimHeader'
 import TimFooter from '../components/TimFooter'
 import Section from '../components/Section'
-import Resume from '../components/Resume'
+import Skills from '../components/Skills'
+import Home from '../components/Home'
 
 import useWindowDimensions from '../utils/useWindowDimensions'
 
 const { Content } = Layout;
 
-const sections = [
-  {
-    key: "home",
-    title: "Home",
-    content: [
-      <Resume/>,
-      <Resume/>,
-      <Resume/>,
-      <Resume/>,
-    ]
-  },
-  {
-    key: "skills",
-    title: "Skills",
-    content:  [
-      <Resume/>,
-      <Resume/>,
-      <Resume/>,
-    ]
-  },
-  {
-    key: "experience",
-    title: "Experience",
-    content:  [
-      <Resume/>,
-      <Resume/>,
-    ]
-  },
-  {
-    key: "education",
-    title: "Education",
-    content:  [
-      <Resume/>,
-      <Resume/>,
-    ]
-  },
-  {
-    key: "redeploy",
-    title: "Redeploy",
-    content:  [
-      <Resume/>,
-      <Resume/>,
-    ]
-  }
-]
-
 const Index = () => {
   const { height, width } = useWindowDimensions();
 
   let skinny = width < 1100 // TODO don't hardcode this, sync with less
+  
+  let sections = [
+    {
+      key: "home",
+      title: "Home",
+      content: <Home/>
+    },
+    {
+      key: "skills",
+      title: "Skills",
+      content: <Skills skinny={skinny}/>
+    },
+    {
+      key: "experience",
+      title: "Experience",
+      content: <Skills skinny={skinny}/>
+    },
+    {
+      key: "education",
+      title: "Education",
+      content: <Skills skinny={skinny}/>
+    },
+    {
+      key: "redeploy",
+      title: "Redeploy",
+      content: <Skills skinny={skinny}/>
+    }
+  ]
 
   let sectionElements = sections.map(section =>
     <Section
       sectionKey={section.key}
       title={section.title}
-      className="section-card"
-      skinny={skinny}
     >
       {section.content}
     </Section>

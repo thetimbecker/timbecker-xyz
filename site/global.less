@@ -8,6 +8,9 @@
   line-height: @header-height;
   font-size: 20px;
   font-weight: 600;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%)
 }
 
 .header-row {
@@ -41,6 +44,10 @@
   padding: 0 @section-padding;
 }
 
+.section-divider {
+  font-size: 24px;
+}
+
 @media only screen and (max-width: 1100px) {
   .section-content {
     padding: 0 @section-padding - 48px;
@@ -57,4 +64,104 @@
 
 .section-card {
   margin: 0 @content-padding/2 @content-padding;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.tim-on-rock {
+  /* Full height */
+  height: calc(100vh - @header-height);
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+// home stuff
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.home-text {
+  text-align: center;
+  color: white;
+  font-size: 48px;
+  font-weight: 600;
+}
+
+.home-text-top {
+  padding-top: 24px;
+}
+
+.home-text-hi {
+  opacity: 0;
+  animation: fadeIn 1s forwards 1s;
+  -ms-animation: fadeIn 1s forwards 1s;
+  -webkit-animation: fadeIn 1s forwards 1s;
+}
+
+.home-text-im {
+  opacity: 0;
+  animation: fadeIn 1s forwards 2.5s;
+  -ms-animation: fadeIn 1s forwards 2.5s;
+  -webkit-animation: fadeIn 1s forwards 2.5s;
+}
+
+.home-text-tim {
+  opacity: 0;
+  animation: fadeIn 1s forwards 3s;
+  -ms-animation: fadeIn 1s forwards 3s;
+  -webkit-animation: fadeIn 1s forwards 3s;
+}
+
+@keyframes fadeEffect {
+	0% { opacity: 0; }
+	5% { opacity: 0; }
+	10% { opacity: 1; }
+	25% { opacity: 1; }
+	30% { opacity: 0; }
+	80% { opacity: 0; }
+	100% { opacity: 0; }
+}
+
+.tim-descriptor{
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translate(-50%);
+}
+.tim-descriptors span{
+	animation: fadeEffect 12.5s linear infinite 3s;
+	-ms-animation: fadeEffect 12.5s linear infinite 3s;
+	-webkit-animation: fadeEffect 12.5s linear infinite 3s;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+}
+.tim-descriptors span:nth-child(2){
+	animation-delay: 5.5s;
+	-ms-animation-delay: 5.5s;
+	-webkit-animation-delay: 5.5s;
+}
+.tim-descriptors span:nth-child(3){
+	animation-delay: 8s;
+	-ms-animation-delay: 8s;
+	-webkit-animation-delay: 8s;
+}
+.tim-descriptors span:nth-child(4){
+	animation-delay: 10.5s;
+	-ms-animation-delay: 10.5s;
+	-webkit-animation-delay: 10.5s;
+}
+.tim-descriptors span:nth-child(5){
+	animation-delay: 13s;
+	-ms-animation-delay: 13s;
+	-webkit-animation-delay: 13s;
 }

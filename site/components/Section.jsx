@@ -3,29 +3,26 @@ import { Divider, Card, Row, Col } from 'antd';
 
 class Section extends PureComponent {
   render() {
-    let { children, sectionKey, title, skinny } = this.props
+    let { children, sectionKey, title } = this.props
 
-    let cards = children.map(child =>
-      <Col span={skinny ? 24 : 12}>
-        <Card
-          key={sectionKey}
-          className="section-card"
-        >
-          {child}
-        </Card>
-      </Col>
-    )
-
-    return (
-      <div className="section" key={sectionKey}>
-        <Divider id={sectionKey} orientation="center">
-          {title}
-        </Divider>
-        <div className="section-content">
-          {cards}
+    if (sectionKey === 'home') {
+      return (
+        <div className="section" key={sectionKey}>
+            {children}
         </div>
-      </div>
-    );
+      );
+    } else {
+      return (
+        <div className="section" key={sectionKey}>
+          <Divider style={{fontSize: 24}} id={sectionKey} orientation="center">
+            {title}
+          </Divider>
+          <div className="section-content">
+            {children}
+          </div>
+        </div>
+      );
+    }
   }
 }
 

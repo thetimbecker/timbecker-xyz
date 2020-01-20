@@ -14,15 +14,15 @@ class TimHeader extends PureComponent {
         <Header className="header">
           <Row type="flex" justify="space-between" className="header-row">
             <Col span={12} className="header-col">
-              <div className="header-title">TIM BECKER</div>
+              <a href="https://timbecker.xyz" className="header-title">TIM BECKER</a>
             </Col>
             <Col span={12} className="header-col">
               <Menu
                 theme="dark"
                 mode="horizontal"
-                defaultSelectedKeys={['resume']}
+                selectedKeys={[]}
                 className="nav-menu"
-                onSelect={item => scrollToElementById(item.key)}
+                onClick={item => scrollToElementById(item.key)}
               >
                 {navItems.map(n => <Menu.Item key={n.key}>{n.title}</Menu.Item>)}
               </Menu>

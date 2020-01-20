@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react';
 
 import Markdown from 'react-markdown';
 
+import TimCard from './TimCard';
+
 class Resume extends PureComponent {
   state = {
     resume: ""
@@ -23,9 +25,11 @@ class Resume extends PureComponent {
 
   render() {
     return (
+      <TimCard skinny={this.props.skinny}>
       <div className="resume">
         <Markdown source={this.state.resume} />
       </div>
+      </TimCard>
     );
   }
 }
