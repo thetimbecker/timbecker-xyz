@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { Card, Col } from 'antd';
 
 
-class Section extends PureComponent {
+class TimCard extends PureComponent {
   render() {
     let { children, title, description, gridItems, avatar, style } = this.props
 
@@ -30,4 +30,4 @@ class Section extends PureComponent {
   }
 }
 
-export default Section
+export default TimCard

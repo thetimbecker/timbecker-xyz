@@ -2,9 +2,7 @@ import React, { PureComponent } from 'react';
 
 import vandyLogo from '../../assets/vandy.jpg'
 
-import { Row, Col } from 'antd';
-
-import TimCard from '../TimCard';
+import PlaceCard from '../PlaceCard';
 
 class College extends PureComponent {
   render() {
@@ -20,42 +18,14 @@ class College extends PureComponent {
       </div>
     )
 
-    if (this.props.width < 850) {
-      return (
-        <TimCard>
-          <div style={{textAlign: "center"}}>
-            {vandyLogoElement}
-            {vandyDetails}
-          </div>
-        </TimCard>
-      );
-    } else if (this.props.width < 1000) {
-      return (
-        <TimCard>
-          <Row type="flex" gutter={16} align="middle">
-            <Col>
-              {vandyLogoElement}
-            </Col>
-            <Col>
-              {vandyDetails}
-            </Col>
-          </Row>
-        </TimCard>
-      );
-    } else {
-      return (
-        <TimCard style={{width: "82%", marginLeft: "auto", marginRight: "auto"}}>
-          <Row type="flex" gutter={16} align="middle">
-            <Col>
-              {vandyLogoElement}
-            </Col>
-            <Col>
-              {vandyDetails}
-            </Col>
-          </Row>
-        </TimCard>
-      );
-    }
+    return (
+      <PlaceCard
+        logo={vandyLogoElement}
+        content={vandyDetails}
+        skinny={this.props.skinny}
+        superSkinny={this.props.superSkinny}
+      />
+    )
   }
 }
 

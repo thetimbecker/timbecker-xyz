@@ -7,7 +7,6 @@ class Home extends PureComponent {
     "Full Stack Developer",
     "Cloud Architect",
     "Friend",
-    "Dog Owner",
   ]
 
   render() {
@@ -16,9 +15,9 @@ class Home extends PureComponent {
     return (
       <div className="tim-on-rock" style={{backgroundImage: `url(${timOnRock})`}}>
         <div className="home-text home-text-top">
-          <span className="home-text-hi">HI, </span>
-          <span className="home-text-im">I'M </span>
-          <span className="home-text-tim">TIM</span>
+          <span className="home-text-hi">Hi, </span>
+          <span className="home-text-im">I'm </span>
+          <span className="home-text-tim">Tim</span>
         </div>
         <div className="home-text tim-descriptors">
           {descriptorElements}

@@ -9,9 +9,9 @@ class OtherTechnologies extends PureComponent {
     return (
       <TimCard
         title="Other Technologies"
-        description="These didn't fit as nicely in the categories above, but I'm good at them too."
+        description="These didn't fit as nicely in the other categories."
         avatar={<Icon type="tool" />}
-        gridItems={["AWS", "Docker", "Kubernetes", "SQL", "NoSQL", "Linux (CentOS and Alpine)"]}
+        gridItems={["AWS", "Docker", "Kubernetes", "Linux (CentOS and Alpine)", "SQL", "NoSQL"]}
       >
       </TimCard>
     );

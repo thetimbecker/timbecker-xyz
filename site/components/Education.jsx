@@ -9,7 +9,7 @@ import College from './education/College'
 
 class Education extends PureComponent {
   render() {
-    let { width } = this.props
+    let { skinny, superSkinny } = this.props
 
     let awsCertSaElement = (
       <div className="aws-cert-badge-wrapper">
@@ -30,7 +30,7 @@ class Education extends PureComponent {
     return (
       <div className="education-section">
         <Col span={24}>
-          <College width={width} />
+          <College skinny={skinny} superSkinny={superSkinny} />
         </Col>
         <Col span={12}>
           {awsCertSaElement}

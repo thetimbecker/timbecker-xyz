@@ -96,7 +96,7 @@ resource aws_iam_role_policy_attachment get_index_html_name_lambda_s3_read_only_
 
 # Function
 
-resource random_id index_hash {
+resource random_id zip_hash {
   byte_length = 8
 
   keepers = {
@@ -107,7 +107,7 @@ resource random_id index_hash {
 data archive_file get_index_html_name_zip {
   type        = "zip"
   source_file = "${path.module}/lambda/${local.get_index_html_name_lambda_filename}.py"
-  output_path = "${path.module}/lambda/${local.get_index_html_name_lambda_filename}-${random_id.index_hash.hex}.zip"
+  output_path = "${path.module}/lambda/${local.get_index_html_name_lambda_filename}-${random_id.zip_hash.hex}.zip"
 }
 
 resource aws_lambda_function get_index_html_name {
