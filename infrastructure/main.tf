@@ -68,3 +68,90 @@ resource aws_route53_record site_cert_validation {
   records = [aws_acm_certificate.site_cert.domain_validation_options.0.resource_record_value]
   ttl     = 300
 }
+
+#####################
+# Terraform apply lambda
+#####################
+
+locals {
+  terraform_apply_lambda_name     = "terraform-apply"
+  terraform_apply_lambda_filename = "terraform_apply"
+}
+
+# IAM
+
+data aws_iam_policy_document terraform_apply_lambda_assume_role_policy {
+  statement {
+    principals {
+      type        = "Service"
+      identifiers = ["lambda.amazonaws.com"]
+    }
+
+    actions = ["sts:AssumeRole"]
+  }
+}
+
+resource aws_iam_role terraform_apply_lambda_role {
+  name_prefix        = "${local.terraform_apply_lambda_name}-role-"
+  assume_role_policy = data.aws_iam_policy_document.terraform_apply_lambda_assume_role_policy.json
+}
+
+# TODO least privileges
+resource aws_iam_role_policy_attachment terraform_apply_lambda_s3_read_only_policy {
+  role       = aws_iam_role.terraform_apply_lambda_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+}
+
+# Function
+
+resource random_id terraform_apply_lambda_zip_hash {
+  byte_length = 8
+
+  keepers = {
+    md5_code = filemd5("${path.module}/lambda/${local.terraform_apply_lambda_filename}.py")
+  }
+}
+
+data archive_file terraform_apply_zip {
+  type        = "zip"
+  output_path = "${path.module}/lambda/${local.terraform_apply_lambda_filename}-${random_id.terraform_apply_lambda_zip_hash.hex}.zip"
+
+  source {
+    content  = file("${path.module}/lambda/${local.terraform_apply_lambda_filename}.py")
+    filename = "${local.terraform_apply_lambda_filename}.py"
+  }
+
+  source {
+    content  = file("${path.module}/main.tf")
+    filename = "main.tf"
+  }
+
+  source {
+    content  = file("${path.module}/static-site.tf")
+    filename = "static-site.tf"
+  }
+
+  source {
+    content  = file("${path.module}/lambda/${local.terraform_apply_lambda_filename}.py")
+    filename = "lambda/${local.terraform_apply_lambda_filename}.py"
+  }
+
+  source {
+    content  = file("${path.module}/lambda/${local.get_index_html_name_lambda_filename}.py")
+    filename = "lambda/${local.get_index_html_name_lambda_filename}.py"
+  }
+}
+
+resource aws_lambda_function terraform_apply {
+  function_name = local.terraform_apply_lambda_name
+  role          = aws_iam_role.terraform_apply_lambda_role.arn
+
+  filename = data.archive_file.terraform_apply_zip.output_path
+  runtime  = "python3.8"
+  handler  = "${local.terraform_apply_lambda_filename}.handler"
+  timeout  = 120
+  memory_size = 512
+
+  # make sure it's not run concurrently
+  reserved_concurrent_executions = 1
+}

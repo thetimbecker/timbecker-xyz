@@ -69,7 +69,7 @@ resource aws_iam_role get_index_html_name_lambda_role {
 
 data aws_iam_policy_document get_index_html_name_lambda_role_policy {
   statement {
-    actions = ["logs:CreateLogGroup"]
+    actions   = ["logs:CreateLogGroup"]
     resources = ["arn:aws:logs:us-east-1:${data.aws_caller_identity.current.account_id}:*"]
   }
 
@@ -114,9 +114,9 @@ resource aws_lambda_function get_index_html_name {
   function_name = local.get_index_html_name_lambda_name
   role          = aws_iam_role.get_index_html_name_lambda_role.arn
 
-  filename      = data.archive_file.get_index_html_name_zip.output_path
-  runtime       = "python3.8"
-  handler       = "${local.get_index_html_name_lambda_filename}.lambda_handler"
+  filename = data.archive_file.get_index_html_name_zip.output_path
+  runtime  = "python3.8"
+  handler  = "${local.get_index_html_name_lambda_filename}.lambda_handler"
 }
 
 data aws_lambda_invocation get_index_html_name {
