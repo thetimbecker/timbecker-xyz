@@ -25,7 +25,8 @@ provider random {
 data aws_caller_identity current {}
 
 locals {
-  site_name = "timbecker.xyz"
+  site_name        = "timbecker.xyz"
+  dashed_site_name = replace(local.site_name, ".", "-")
 }
 
 ######
