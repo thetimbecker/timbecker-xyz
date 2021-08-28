@@ -11,7 +11,7 @@ class Languages extends PureComponent {
         title="Languages"
         description="Can't find these on Duolingo."
         avatar={<Icon type="code" />}
-        gridItems={["JavaScript (React)", "Java (Maven)", "Python", "Groovy", "Bash", "Fish Shell"]}
+        gridItems={["GoLang", "Python", "JavaScript", "Bash"]}
       >
       </TimCard>
     );

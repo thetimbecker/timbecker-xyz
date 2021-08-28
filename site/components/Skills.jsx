@@ -3,9 +3,9 @@ import React, { PureComponent } from 'react';
 import { Col } from 'antd';
 
 import Languages from './skills/Languages'
-import EverythingAsCode from './skills/EverythingAsCode'
-import OtherTechnologies from './skills/OtherTechnologies'
-import DevOpsMethodologies from './skills/DevOpsMethodologies'
+import Technologies from './skills/Technologies'
+import Methodologies from './skills/Methodologies'
+import SoftSkills from './skills/SoftSkills'
 
 class Skills extends PureComponent {
   render() {
@@ -16,9 +16,9 @@ class Skills extends PureComponent {
         <div>
           <Col span={24}>
             <Languages />
-            <EverythingAsCode />
-            <OtherTechnologies />
-            <DevOpsMethodologies />
+            <Technologies />
+            <Methodologies />
+            <SoftSkills />
           </Col>
         </div>
       );
@@ -27,11 +27,11 @@ class Skills extends PureComponent {
         <div>
           <Col span={12}>
             <Languages />
-            <DevOpsMethodologies />
+            <Methodologies />
           </Col>
           <Col span={12}>
-            <EverythingAsCode />
-            <OtherTechnologies />
+            <Technologies />
+            <SoftSkills />
           </Col>
         </div>
       );
