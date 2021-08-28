@@ -21,8 +21,8 @@ const Index = () => {
   let skinny = width < 1100
   let superSkinny = width < 850
   let experienceSkinny = width < 1200
-  let experienceSuperSkinny = width < 900
-  
+  let experienceSuperSkinny = width < 915
+
   let sections = [
     {
       key: "home",

@@ -6,7 +6,7 @@ import PlaceCard from '../PlaceCard';
 
 class BBVADevOps extends PureComponent {
   render() {
-    let bbvaLogoElement = <img style={{height: 256, width: 256}} src={bbvaLogo} />
+    let bbvaLogoElement = <img style={{ width: 256 }} src={bbvaLogo} />
 
     let bbvaDetails = (
       <div>
@@ -31,4 +31,3 @@ class BBVADevOps extends PureComponent {
 }
 
 export default BBVADevOps
-

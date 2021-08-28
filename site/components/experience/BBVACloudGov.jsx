@@ -6,13 +6,13 @@ import PlaceCard from '../PlaceCard';
 
 class BBVACloudGov extends PureComponent {
   render() {
-    let bbvaLogoElement = <img style={{height: 256, width: 256}} src={bbvaLogo} />
+    let bbvaLogoElement = <img style={{ width: 256 }} src={bbvaLogo} />
 
     let bbvaDetails = (
       <div>
         <div className="where">BBVA</div>
         <div className="what">Cloud Governance Team</div>
-        <div className="when">Since December 2018</div>
+        <div className="when">December 2018 - February 2020</div>
         <div>Define and document a new cloud enterprise architecture model</div>
         <div>Develop, provision, and administrate tools to regulate and aid cloud development</div>
         <div>Define everything as code to improve automation, consistency, and auditability</div>
@@ -33,4 +33,3 @@ class BBVACloudGov extends PureComponent {
 }
 
 export default BBVACloudGov
-
